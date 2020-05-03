@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Mark Dewey",
+  "classifications": ["console"],
+  "identity": "SDG.templates.Console",
+  "name": "SDG Console App template",
+  "shortName": "sdg-console",
+  "sourceName": "SampleApp",
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  }
+}

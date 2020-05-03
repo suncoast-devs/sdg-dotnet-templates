@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Mark Dewey",
+  "classifications": ["Web", "API"],
+  "identity": "SDG.templates.Web.API",
+  "name": "SDG Web API Template",
+  "shortName": "sdg-api",
+  "sourceName": "SampleApi",
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  }
+}
