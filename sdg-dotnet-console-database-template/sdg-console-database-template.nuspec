@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
-    <id>SDG.Templates.Console</id>
-    <version>1.2.3</version>
+    <id>SDG.templates.Console.Database</id>
+    <version>1.0.1</version>
     <description>
-      Creates a console app for use at Suncoast Developers Guild in Tampa Bay, FL.
+      Creates a console + database app for use at Suncoast Developers Guild in Tampa Bay FL. Includes gitignore and tasks to interact with github. This includes the structure for using EF Core
     </description>
     <authors>Suncoast Developers Guild</authors>
     <packageTypes>

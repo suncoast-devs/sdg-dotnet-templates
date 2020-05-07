@@ -2,19 +2,16 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>SDG.templates.Web.React</id>
-    <version>4.6.0</version>
+    <version>4.6.1</version>
     <description>
-      Creates a dummy app for use at Suncoast Developers Guild in Tampa Bay
+      Creates a React + API app for use at Suncoast Developers Guild in Tampa Bay
     </description>
-    <authors>Mark Dewey</authors>
+    <authors>Suncoast Developers Guild</authors>
     <packageTypes>
       <packageType name="Template" />
     </packageTypes>
   </metadata>
-   <files>
-    <file
-      src="SampleSite/**/*"
-      target="SampleSite" />
-    <file src="SampleSite/.gitignore" />
+  <files>
+    <file src="SampleSite/**/*" target="SampleSite" />
   </files>
 </package>

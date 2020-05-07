@@ -1,14 +1,36 @@
 {
   "$schema": "http://json.schemastore.org/template",
-  "author": "Mark Dewey",
+  "author": "Suncoast Developers Guild",
   "classifications": ["console"],
   "identity": "SDG.templates.Console",
-  "name": "SDG Console App template",
+  "name": "SDG Console App Template",
   "shortName": "sdg-console",
   "sourceName": "SampleApp",
   "preferNameDirectory": true,
   "tags": {
     "language": "C#",
     "type": "project"
-  }
+  },
+  "postActions": [
+    {
+      "condition": "(OS != \"Windows_NT\")",
+      "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
+      "args": {
+        "executable": "bash",
+        "args": ".gitsetup"
+      },
+      "continueOnError": false,
+      "description": "Creates a github repository for you"
+    },
+    {
+      "condition": "(OS == \"Windows_NT\")",
+      "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
+      "args": {
+        "executable": "powershell",
+        "args": ".gitsetup"
+      },
+      "continueOnError": false,
+      "description": "Creates a github repository for you"
+    }
+  ]
 }

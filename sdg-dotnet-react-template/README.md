@@ -1,6 +1,6 @@
-# SDG.templates.Web.Api aka `sdg-api`
+# SDG React template aka `sdg-react`
 
-This is the template SDG uses to create simple API projects
+This is the template SDG uses for building API applications with React
 
 ## What is does
 
@@ -14,3 +14,4 @@ This provides a basic console application with the following features:
 - CORS
 - Dependency Injection of DbContext
 - Scaffolding
+- A client React application

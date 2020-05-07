@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for dir in sdg-*; do
+  cd ${dir}
+  nuget pack . -NoDefaultExcludes -OutputDirectory ..
+  cd ..
+done
