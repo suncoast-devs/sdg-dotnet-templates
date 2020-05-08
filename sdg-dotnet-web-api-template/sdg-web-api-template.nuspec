@@ -10,6 +10,7 @@
     <packageTypes>
       <packageType name="Template" />
     </packageTypes>
+    <license type="expression">MIT</license>
   </metadata>
   <files>
     <file src="SampleApi/**/*" target="SampleApi" />
