@@ -32,6 +32,15 @@
       "continueOnError": true
     },
     {
+      "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
+      "args": {
+        "executable": "npm",
+        "args": "--prefix ClientApp install"
+      },
+      "continueOnError": true,
+      "description": "Do the one time install of npm modules. **** Highly recommended -- though it takes a while ****"
+    },
+    {
       "condition": "(OS != \"Windows_NT\")",
       "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
       "args": {
