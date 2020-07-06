@@ -38,7 +38,7 @@
         "executable": "bash",
         "args": "-c \"git init; hub create; git add .; git commit -m 'Initial Commit'; git push -u origin master\""
       },
-      "continueOnError": false,
+      "continueOnError": true,
       "description": "Creates a github repository for you"
     },
     {
@@ -48,7 +48,7 @@
         "executable": "powershell",
         "args": "git init; hub create; git add .; git commit -m 'Initial Commit'; git push -u origin master"
       },
-      "continueOnError": false,
+      "continueOnError": true,
       "description": "Creates a github repository for you"
     }
   ]
