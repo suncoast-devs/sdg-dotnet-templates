@@ -1,22 +1,8 @@
-import React, { Component } from 'react'
-import { Route, Switch } from 'react-router'
-import { Layout } from './components/Layout'
-import { Home } from './pages/Home'
-import HelloWorld from './pages/_template/HelloWorld'
-import NotFound from './pages/NotFound'
+import React from 'react'
 import './custom.scss'
-export default class App extends Component {
-  static displayName = App.name
 
-  render() {
-    return (
-      <Layout>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/counter" component={HelloWorld} />
-          <Route exact path="*" component={NotFound} />
-        </Switch>
-      </Layout>
-    )
-  }
+export function App() {
+  return (
+    <div className="d-flex justify-content-center display-2">Hello, World!</div>
+  )
 }
