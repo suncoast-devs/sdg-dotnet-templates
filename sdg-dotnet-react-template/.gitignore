@@ -1,0 +1,4 @@
+# Since this is a template we should not check in the
+# package-lock.json and include it in the distribution
+SampleSite/ClientApp/package-lock.json
+

@@ -13,6 +13,6 @@
     <license type="expression">MIT</license>
   </metadata>
   <files>
-    <file src="SampleSite/**/*" target="SampleSite" exclude="SampleSite/ClientApp/node_modules/**/*" />
+    <file src="SampleSite/**/*" target="SampleSite" exclude="SampleSite/ClientApp/node_modules/**/*;SampleSite/ClientApp/package-lock.json" />
   </files>
 </package>
