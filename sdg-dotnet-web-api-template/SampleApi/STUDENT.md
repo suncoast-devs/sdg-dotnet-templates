@@ -10,28 +10,36 @@ The application was generated from the `sdg-api` template. It includes:
 
 The default database will be named SampleApiDatabase. You can change this in `DatabaseContext.cs`
 
-## To push to github
-
-If you selected `Y` during `dotnet new` you can add your changes and push to github with:
+## To push your code to github:
 
 1. `git add .`
 1. `git commit -m "Here I describe my changes"`
 1. `git push`
 
-Otherwise do the following _ONCE_ before using the steps above.
+## To SETUP deployment to Heroku
 
-1. `git init`
-1. `git add .`
-1. `git commit -m "Initial Commit"`
-1. `hub create`
-1. `git push -u origin master`
-
-## To deploy to Heroku
+These steps need to be done _ONCE_ before you can deploy to heroku
 
 > NOTE: You must choose an app name that is unique across all of heroku. If you want to use a name that isn't available, try appending unique like `-sdg` or `-janedoe` replacing `janedoe` with your name.
 
 - `heroku apps:create NAMEOFAPP` - NOTE: replace `NAMEOFAPP` with something that is unique to your project.
 - `heroku buildpacks:set suncoast-devs/dotnetcore-buildpack`
+- `git push heroku master`
+
+## To setup secrets for Heroku
+
+Heroku stores secrets in your *environment variables*. You can change these from the command line or from your app's configuration on `heroku.com`
+
+If you are using JWT tokens, you need to do the following:
+
+- `heroku config:set JWT_KEY="MY RANDOM STRING OF LETTERS AND NUMBERS TO USE FOR A KEY"`
+
+If you are using a third party API you can set any configuration as such:
+
+- `heroku config:set THIRD_PARTY_KEY_NAME="THIRD PARTY KEY VALUE"`
+
+## To deploy to Heroku
+
 - `git push heroku master`
 
 ## To open your deployed application
