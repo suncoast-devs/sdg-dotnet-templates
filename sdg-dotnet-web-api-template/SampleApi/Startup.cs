@@ -42,7 +42,14 @@ namespace SampleApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            } else {
+                // Only enforce https in production
+                app.UseHttpsRedirection();
+
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
+
             app.UseCors(builder =>
               builder
                .AllowAnyHeader()
@@ -50,7 +57,6 @@ namespace SampleApi
                .AllowAnyOrigin()
                );
 
-            app.UseHttpsRedirection();
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
