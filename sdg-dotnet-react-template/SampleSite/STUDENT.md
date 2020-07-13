@@ -11,11 +11,17 @@ The application was generated from the `sdg-react` template. It includes:
 
 The default database will be named SampleApiDatabase. You can change this in `DatabaseContext.cs`
 
-## To push your code to github:
+## To add a package to your front end:
 
-1. `git add .`
-1. `git commit -m "Here I describe my changes"`
-1. `git push`
+Either:
+
+1. `cd ClientApp`
+1. `npm install --save NAME`
+1. `cd ..`
+
+or:
+
+1. `npm install --prefix=ClientApp --save NAME`
 
 ## To SETUP deployment to Heroku
 
