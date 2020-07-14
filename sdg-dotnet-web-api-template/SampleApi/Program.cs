@@ -1,17 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SampleApi.Models;
 using System.Diagnostics;
 using System.Data.Common;
 using System.Runtime.InteropServices;
+using System.Threading;
+using SampleApi.Models;
 
 namespace SampleApi
 {
@@ -24,27 +23,50 @@ namespace SampleApi
             using (var scope = host.Services.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-                var migrations = await context.Database.GetPendingMigrationsAsync();
-
-                if (migrations.Count() > 0)
-                {
-                    Console.WriteLine("Starting to migrate database....");
-                    try
-                    {
-                        await context.Database.MigrateAsync();
-                        Console.WriteLine("Database is up to date, #party time");
-                    }
-                    catch (DbException)
-                    {
-                        Notify("Database Migration FAILED");
-                        throw;
-                    }
-                }
+                await WaitForMigrations(host, context);
             }
 
             var task = host.RunAsync();
-            Notify("🚀");
+
+            Notify("� App Running!");
+
             WebHostExtensions.WaitForShutdown(host);
+        }
+
+        private static async Task<int> MigrationCount(DbContext context)
+        {
+            return (await context.Database.GetPendingMigrationsAsync()).Count();
+        }
+
+        private static async Task WaitForMigrations(IWebHost host, DbContext context)
+        {
+            if (await MigrationCount(context) == 0)
+            {
+                return;
+            }
+
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+            {
+                do
+                {
+                    Console.WriteLine("Waiting for migrations to complete...");
+                    Thread.Sleep(1000);
+                } while (await MigrationCount(context) > 0);
+
+                return;
+            }
+
+            Console.WriteLine("Starting to migrate database....");
+            try
+            {
+                await context.Database.MigrateAsync();
+                Console.WriteLine("Database is up to date, #party time");
+            }
+            catch (DbException)
+            {
+                Notify("Database Migration FAILED");
+                throw;
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
