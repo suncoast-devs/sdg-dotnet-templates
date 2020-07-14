@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -24,7 +25,6 @@ namespace SampleSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -32,12 +32,20 @@ namespace SampleSite
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SampleSite", Version = "v1" });
             });
+
             services.AddDbContext<DatabaseContext>();
 
+            // Configure authentication with JWT
+            var JWT_KEY = Configuration["JWT_KEY"];
+            if (JWT_KEY == null || JWT_KEY.Length < 32)
+            {
+                Console.WriteLine("\n*** WARNING *** : No JWT_KEY secret defined, or key is less than 32 characters.\n");
+            }
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -47,7 +55,7 @@ namespace SampleSite
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
 
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["JWT_KEY"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JWT_KEY))
                 };
             });
         }
@@ -71,7 +79,9 @@ namespace SampleSite
             }
 
             app.UseStaticFiles();
+
             app.UseSpaStaticFiles();
+
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
@@ -80,8 +90,10 @@ namespace SampleSite
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "SampleSite");
             });
+
             app.UseRouting();
 
+            // Allow for authorization of endpoints (using JWT)
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -97,6 +109,10 @@ namespace SampleSite
 
                 if (env.IsDevelopment())
                 {
+                    // Give a long startup time. On some systems the initial npm install takes a long time.
+                    // If that times out then we sometimes see partial installs which lead to confusing errors.
+                    spa.Options.StartupTimeout = new TimeSpan(10 * TimeSpan.TicksPerMinute);
+
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
