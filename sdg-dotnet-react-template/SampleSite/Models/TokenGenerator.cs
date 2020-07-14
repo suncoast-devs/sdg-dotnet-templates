@@ -14,6 +14,11 @@ namespace TacoTuesday.Models
 
         public TokenGenerator(string key)
         {
+            if (key == null || key.Length == 0)
+            {
+                throw new ArgumentException("Your JWT_KEY is not defined. If local, use    dotnet secrets set JWT_KEY xxxxxxxx        If on Heroku, use heroku config:set JWT_KEY=xxxxxxxxxxx");
+            }
+
             JWT_KEY = key;
         }
 
