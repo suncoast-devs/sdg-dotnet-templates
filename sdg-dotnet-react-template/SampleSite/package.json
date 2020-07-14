@@ -1,0 +1,17 @@
+// WRONG DIRECTORY
+//
+// *******************************************************
+//              THIS FILE IS NOT TO BE USED
+// *******************************************************
+//
+//              If you need to add npm packages
+//
+//              Either:
+//
+//              cd ClientApp
+//              npm install --save NAME
+//              cd ..
+//
+//              or:
+//
+//              npm install --prefix=ClientApp --save NAME
