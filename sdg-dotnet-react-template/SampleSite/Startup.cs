@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,9 +19,11 @@ namespace SampleSite
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            JWT_KEY = Configuration["JWT_KEY"];
         }
 
         public IConfiguration Configuration { get; }
+        private readonly string JWT_KEY;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -40,12 +43,6 @@ namespace SampleSite
 
             services.AddDbContext<DatabaseContext>();
 
-            // Configure authentication with JWT
-            var JWT_KEY = Configuration["JWT_KEY"];
-            if (JWT_KEY == null || JWT_KEY.Length < 32)
-            {
-                Console.WriteLine("\n*** WARNING *** : No JWT_KEY secret defined, or key is less than 32 characters.\n");
-            }
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -63,6 +60,18 @@ namespace SampleSite
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (JWT_KEY == null || JWT_KEY.Length < 20)
+            {
+                app.Run(async (context) =>
+                {
+                    var message = env.IsDevelopment() ?
+                        $"You do not have a valid JWT_KEY. Use\n\n\ndotnet user-secrets set JWT_KEY {Guid.NewGuid()}\n\n\nto set one." :
+                        $"You do not have a valid JWT_KEY. Use\n\n\nheroku config:set JWT_KEY=${Guid.NewGuid()}\n\n\nto set one";
+
+                    await context.Response.WriteAsync(message);
+                });
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
