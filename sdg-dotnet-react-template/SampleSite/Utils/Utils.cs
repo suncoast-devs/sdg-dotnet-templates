@@ -13,6 +13,9 @@ namespace SampleSite.Utils
 {
     public class Utilities
     {
+        // Change this to true if you want to have your app browsable on the local network
+        private static bool ALLOW_APP_TO_BE_BROWSABLE_ON_THE_LOCAL_NETWORK = false;
+
         public static async Task WaitForMigrations(IWebHost host, DbContext context)
         {
             if (await MigrationCount(context) == 0)
@@ -50,10 +53,17 @@ namespace SampleSite.Utils
         }
 
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseUrls("http://0.0.0.0:5000/;https://0.0.0.0:5001")
-                .UseStartup<Startup>();
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            var builder = WebHost.CreateDefaultBuilder(args);
+
+            if (ALLOW_APP_TO_BE_BROWSABLE_ON_THE_LOCAL_NETWORK && Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+            {
+                builder = builder.UseUrls("http://0.0.0.0:5000/;https://0.0.0.0:5001");
+            }
+
+            return builder.UseStartup<Startup>();
+        }
 
         public static void Notify(string message)
         {
