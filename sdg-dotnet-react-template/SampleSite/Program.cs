@@ -16,7 +16,12 @@ namespace SampleSite
             using (var scope = host.Services.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-                await Utilities.WaitForMigrations(host, context);
+                var canContinue = await Utilities.WaitForMigrations(host, context);
+
+                if (!canContinue)
+                {
+                    return;
+                }
             }
 
             var task = host.RunAsync();

@@ -16,22 +16,18 @@ namespace SampleApi.Utils
         // Change this to true if you want to have your app browsable on the local network
         private static bool ALLOW_APP_TO_BE_BROWSABLE_ON_THE_LOCAL_NETWORK = false;
 
-        public static async Task WaitForMigrations(IWebHost host, DbContext context)
+        public static async Task<bool> WaitForMigrations(IWebHost host, DbContext context)
         {
             if (await MigrationCount(context) == 0)
             {
-                return;
+                return true;
             }
 
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
-                do
-                {
-                    Console.WriteLine("Waiting for migrations to complete...");
-                    Thread.Sleep(1000);
-                } while (await MigrationCount(context) > 0);
+                Console.WriteLine("There are migrations to run, execute: dotnet ef database update");
 
-                return;
+                return false;
             }
 
             Console.WriteLine("Starting to migrate database....");
@@ -39,6 +35,8 @@ namespace SampleApi.Utils
             {
                 await context.Database.MigrateAsync();
                 Console.WriteLine("Database is up to date, #party time");
+
+                return true;
             }
             catch (DbException)
             {
@@ -59,7 +57,7 @@ namespace SampleApi.Utils
 
             if (ALLOW_APP_TO_BE_BROWSABLE_ON_THE_LOCAL_NETWORK && Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
-                builder = builder.UseUrls("http://0.0.0.0:5000/;https://0.0.0.0:5001");
+                builder = builder.UseUrls("http://*:5000/;https://*:5001");
             }
 
             return builder.UseStartup<Startup>();
