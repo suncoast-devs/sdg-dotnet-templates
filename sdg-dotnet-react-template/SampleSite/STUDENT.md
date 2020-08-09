@@ -30,7 +30,6 @@ These steps need to be done _ONCE_ before you can deploy to heroku
 > NOTE: You must choose an app name that is unique across all of heroku. If you want to use a name that isn't available, try appending unique like `-sdg` or `-janedoe` replacing `janedoe` with your name.
 
 - `heroku apps:create NAMEOFAPP` - NOTE: replace `NAMEOFAPP` with something that is unique to your project.
-- `heroku buildpacks:add heroku/nodejs`
 - `heroku buildpacks:add suncoast-devs/dotnetcore-buildpack`
 - `git push heroku master`
 
