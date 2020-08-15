@@ -172,11 +172,16 @@ namespace SampleSite
 
                 if (env.IsDevelopment())
                 {
-                    // Give a long startup time. On some systems the initial npm install takes a long time.
-                    // If that times out then we sometimes see partial installs which lead to confusing errors.
-                    spa.Options.StartupTimeout = new TimeSpan(10 * TimeSpan.TicksPerMinute);
-
-                    spa.UseReactDevelopmentServer(npmScript: "start");
+                    // Assume the client app is running on port 3000, this is
+                    // a big assumption since it might run on a differnet port
+                    // if multiple react-scripts/create-react-app are running on
+                    // the machine.
+                    //
+                    // However, this is better than running the UseReactDevelopmentServer
+                    // which has all kinds of issues with ansi coloring, timeouts,
+                    // and a silent delay when starting the first time and doing
+                    // a background `npm install` which can timeout during the install
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
                 }
             });
         }

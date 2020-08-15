@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +27,11 @@ namespace SampleSite
 
             var task = host.RunAsync();
 
-            Utilities.Notify("SampleSite Running!"); ;
+            Utilities.Notify("SampleSite Running!");
 
+            Console.WriteLine("You must also have the ClientApp running. In a separate terminal, run:");
+            Console.WriteLine("    cd ClientApp");
+            Console.WriteLine("    npm start");
             WebHostExtensions.WaitForShutdown(host);
         }
     }
