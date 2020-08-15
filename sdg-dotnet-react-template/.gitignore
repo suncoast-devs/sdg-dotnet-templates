@@ -2,3 +2,6 @@
 # package-lock.json and include it in the distribution
 SampleSite/ClientApp/package-lock.json
 
+# Exclude all the Mac .DS_Store
+**/.DS_Store
+

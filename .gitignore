@@ -331,3 +331,7 @@ ASALocalRun/
 
 *.key
 *.nupkg
+
+# Exclude all the Mac .DS_Store
+**/.DS_Store
+
