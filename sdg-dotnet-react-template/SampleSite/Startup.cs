@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using SampleSite.Models;
 
@@ -89,8 +90,6 @@ namespace SampleSite
 
             app.UseStaticFiles();
 
-            app.UseSpaStaticFiles();
-
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
@@ -112,9 +111,64 @@ namespace SampleSite
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
+            app.UseSpaStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    // This will set a caching time for any files in `/static`
+                    // Since these files come from our compiled react app we
+                    // will set a relatively long caching time.
+                    //
+                    // Anything not in `/static` will receive a non cacheable
+                    // max-age of 0.
+
+                    // In a real production we might cache this for much longer
+                    // since assets will have unique names. In those cases a
+                    // longer MaxAge such as 365 days is fine and often recommended.
+                    //
+                    // This value is a good middle ground for student projects.
+                    var longDurationCachingHeader = new CacheControlHeaderValue
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromHours(1)
+                    };
+
+                    var noCachingHeader = new CacheControlHeaderValue
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromDays(0)
+                    };
+
+                    var headers = ctx.Context.Response.GetTypedHeaders();
+                    if (ctx.Context.Request.Path.StartsWithSegments("/static"))
+                    {
+                        headers.CacheControl = longDurationCachingHeader;
+                    }
+                    else
+                    {
+                        headers.CacheControl = noCachingHeader;
+                    }
+                }
+            });
+
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
+
+                // Set caching for static files
+                spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions()
+                {
+                    OnPrepareResponse = ctx =>
+                    {
+                        // Do not cache implicit `/index.html`.
+                        var headers = ctx.Context.Response.GetTypedHeaders();
+                        headers.CacheControl = new CacheControlHeaderValue
+                        {
+                            Public = true,
+                            MaxAge = TimeSpan.FromDays(0)
+                        };
+                    }
+                };
 
                 if (env.IsDevelopment())
                 {
