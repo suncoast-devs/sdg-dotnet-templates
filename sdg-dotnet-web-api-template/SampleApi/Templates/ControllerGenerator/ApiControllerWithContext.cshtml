@@ -33,7 +33,7 @@ namespace @Model.ControllerNamespace
         // This is the variable you use to have access to your database
         private readonly @Model.ContextTypeName _context;
 
-        // Constructor that recives a reference to your database context
+        // Constructor that receives a reference to your database context
         // and stores it in _context for you to use in your API methods
         public @(Model.ControllerName)(@Model.ContextTypeName context)
         {
@@ -71,7 +71,7 @@ namespace @Model.ControllerNamespace
                 return NotFound();
             }
 
-            //  Return the @Model.ModelVariable as a JSON object.
+            // Return the @Model.ModelVariable as a JSON object.
             return @Model.ModelVariable;
         }
 
@@ -125,7 +125,7 @@ namespace @Model.ControllerNamespace
             // return NoContent to indicate the update was done. Alternatively you can use the
             // following to send back a copy of the updated data.
             //
-            // return Ok(@Model.ModelVariable)
+            // return Ok(@Model.ModelVariable);
             //
             return NoContent();
         }
@@ -206,7 +206,7 @@ namespace @Model.ControllerNamespace
             // return NoContent to indicate the update was done. Alternatively you can use the
             // following to send back a copy of the deleted data.
             //
-            // return Ok(@Model.ModelVariable)
+            // return Ok(@Model.ModelVariable);
             //
             return NoContent();
         }
