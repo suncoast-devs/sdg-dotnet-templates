@@ -66,7 +66,7 @@ namespace SampleSite
                 app.Run(async (context) =>
                 {
                     var message = env.IsDevelopment() ?
-                        $"You do not have a valid JWT_KEY. Use\ndotnet user-secrets init\n\n\ndotnet user-secrets set JWT_KEY {Guid.NewGuid()}\n\n\nto set one." :
+                        $"You do not have a valid JWT_KEY. Stop the application and then run these two commands:\n\n\ndotnet user-secrets init\ndotnet user-secrets set JWT_KEY {Guid.NewGuid()}\n\n\nThen restart dotnet watch run." :
                         $"You do not have a valid JWT_KEY. Use\n\n\nheroku config:set JWT_KEY={Guid.NewGuid()}\n\n\nto set one";
 
                     await context.Response.WriteAsync(message);
