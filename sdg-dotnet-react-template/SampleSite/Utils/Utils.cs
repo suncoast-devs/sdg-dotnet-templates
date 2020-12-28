@@ -2,8 +2,6 @@ using System;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -65,41 +63,29 @@ namespace SampleSite.Utils
 
         public static void Notify(string message)
         {
-            var isWindows = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-            var isMac = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-
-            if (!isWindows && !isMac)
+            try
             {
-                return;
+                // Create a process to launch the `sdg toast` with our message
+                var newProcess = new Process()
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = "sdg",
+                        Arguments = $"toast \"{message}\" \"SampleApi\"",
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                    }
+                };
+
+                // Start the message but do not wait for it to end, we don't care about the termination result.
+                newProcess.Start();
             }
-
-            // Create a process to launch the nodejs app `notifiy` with our message
-            var process = isMac ? new Process()
+            catch (System.ComponentModel.Win32Exception)
             {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = ".bin/terminal-notifier.app/Contents/MacOS/terminal-notifier",
-                    Arguments = $"-message \"{message}\" -title \"SampleApi\"",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                }
-            } : new Process()
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = ".bin/snoretoast",
-                    Arguments = $"-silent -m \"{message}\" -t \"SampleApi\"",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                }
-            };
-
-            // Start the message but do not wait for it to end, we don't care about the termination result.
-            process.Start();
+                // Nothing to do
+            }
         }
     }
 }
