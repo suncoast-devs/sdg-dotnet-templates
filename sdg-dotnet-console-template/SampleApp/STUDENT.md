@@ -14,7 +14,7 @@ Otherwise do the following _ONCE_ before using the steps above.
 1. `git add .`
 1. `git commit -m "Initial Commit"`
 1. `hub create`
-1. `git push -u origin`
+1. `git push -u origin HEAD`
 
 ## PROTIP:
 
