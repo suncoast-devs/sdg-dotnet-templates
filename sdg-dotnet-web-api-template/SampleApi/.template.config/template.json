@@ -11,6 +11,11 @@
     "language": "C#",
     "type": "project"
   },
+  "primaryOutputs": [
+    {
+      "path": "SampleApi.csproj"
+    }
+  ],
   "postActions": [
     {
       "description": "Restore NuGet packages required by this project.",

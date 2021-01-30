@@ -11,6 +11,11 @@
     "language": "C#",
     "type": "project"
   },
+  "primaryOutputs": [
+    {
+      "path": "SampleApp.csproj"
+    }
+  ],
   "postActions": [
     {
       "condition": "(OS != \"Windows_NT\")",
