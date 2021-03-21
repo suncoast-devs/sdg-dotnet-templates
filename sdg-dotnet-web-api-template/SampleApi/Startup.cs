@@ -24,8 +24,8 @@ namespace SampleApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Our application will use controllers
-            services.AddControllers();
+            // Use NewtonsoftJson to avoid JSON cyclical loops
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             // Add support for CORS which allow cross domain access to the API
             services.AddCors();
