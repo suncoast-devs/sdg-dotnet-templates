@@ -2,9 +2,9 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>SDG.templates.Web.API</id>
-    <version>2.3.22</version>
+    <version>3.0.0</version>
     <description>
-      Creates an API app for use at Suncoast Developers Guild in Tampa Bay FL
+      Creates an API app for use at Suncoast Developers Guild.
     </description>
     <authors>Suncoast Developers GUild</authors>
     <packageTypes>
